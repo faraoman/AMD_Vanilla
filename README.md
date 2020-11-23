@@ -2,7 +2,7 @@
 <h1>AMD Vanilla OpenCore</h1>
 </span>
 
-### Languages: English (current), [Russian](languages/README_RUS.md), [Traditional Chinese](languages/README_CHT.md), [Spanish](languages/README_ES.md)
+### Languages: English (current), [Ukrainian](languages/README_UA.md), [Russian](languages/README_RUS.md), [Traditional Chinese](languages/README_CHT.md), [Spanish](languages/README_ES.md), [Simplified Chinese](languages/README_CHS.md), [Vietnamese](languages/README_VI.md)
 Kernel binary patches to enable almost native AMD CPU support on macOS.
 
 ### Features
@@ -18,7 +18,15 @@ Kernel binary patches to enable almost native AMD CPU support on macOS.
 |--------|---------|----------|
 |   [15h](https://github.com/AMD-OSX/AMD_Vanilla/tree/opencore/15h_16h)  | Bulldozer | FX Series|
 |   [16h](https://github.com/AMD-OSX/AMD_Vanilla/tree/opencore/15h_16h)  | Jaguar | A Series (including AM4 A-Series) |
-|   [17h](https://github.com/AMD-OSX/AMD_Vanilla/tree/opencore/17h) | Zen | Ryzen, Threadripper, Athlon 2xxGE | <br />
+|   [17h and 19h](https://github.com/AMD-OSX/AMD_Vanilla/tree/opencore/17h_19h) | Zen | Ryzen, 1st, 2nd + 3rd Gen Threadripper, Athlon 2xxGE |<br />
+
+### Information on the PAT fix patch
+The default enabled patch is Algrey's original patch. This will work for all GPUs and doesn't affect audio but doesn't improve the performance.
+The other choice is Shaneee's patch which will increase GPU performance on AMD GPUs but can stop Nvidia GPUs booting. It also causes audio issues when using HDMI and DP audio.
+The choice is yours on which patch to use. Please don't try to use them both at the same time. 
+
+### Note on TRX40 Systems
+Disabling the `mtrr_update_action - fix PAT` patch has shown an improvement in GPU performance on some systems that have tested. If you wish to test this it is recommended to do so on a USB with OpenCore to ensure it works first. There may be issues with different motherboard/GPU combos that we aren't aware of. Proceed at your own risk. 
 
 ### Supported macOS versions
 - High Sierra 10.13.x
@@ -40,14 +48,17 @@ sudo /Applications/Install\ macOS\ Mojave.app/Contents/Resources/createinstallme
 
 ## Catalina
 sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVolumeName
+
+## Big Sur
+sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVolumeName
 ```
 - Install OpenCore on your USB drive. (For OpenCore releases see: https://github.com/acidanthera/OpenCorePkg/releases)
 - Read the [OpenCore Documentaion](https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/Configuration.pdf) for `config.plist` setup. A default config will not be provided.
 - Merge the patches provided, according to your CPU family (i.e `15h_16h` or `17h`) into your OpenCore `config.plist` and edit it as per your needs.
 
 ### Special Notes
-- These patches require OpenCore 0.5.2 and above. They will not work with 0.5.1 and below.
-- For support creating OpenCore config read the docs and visit [this](https://khronokernel-2.gitbook.io/opencore-vanilla-desktop-guide/) guide or the Discord server.
+- These patches require OpenCore 0.6.1 and above.
+- For support creating OpenCore config read the docs and visit [this](https://dortania.github.io/OpenCore-Install-Guide/) guide or the Discord server.
 - For 15h_16h CPU family users on macOS Mojave:
   - Upon booting to macOS Mojave for first time, the system will reboot after the Data & Privacy screen. To fix this issue follow the procedure mentioned [here](https://www.insanelymac.com/forum/topic/335877-amd-mojave-kernel-development-and-testing/?do=findComment&comment=2658085) under UPDATE-2 heading.
   - On macOS Mojave certain webpages will crash upon loading (eg. brew.sh, facebook.com). To fix this issue follow the procedure mentioned [here](https://www.insanelymac.com/forum/topic/335877-amd-mojave-kernel-development-and-testing/?do=findComment&comment=2661857) under the UPDATE-5 heading.
